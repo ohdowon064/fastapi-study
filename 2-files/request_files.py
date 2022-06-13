@@ -59,5 +59,9 @@ async def upload_file_with_body(file: UploadFile, data: BodyData):
     return {"filename": file.filename, **data.dict()}
 
 
+@app.post("/uploadfiles")
+async def create_upload_files(files: list[UploadFile] = File(description="UploadFile인 경우에도 File()로 메타데이터 추가가능")):
+    return {"filenames": [file.filename for file in files]}
+
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)
