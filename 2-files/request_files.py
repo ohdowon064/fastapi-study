@@ -9,6 +9,8 @@ from pydantic import BaseModel, ValidationError
 app = FastAPI()
 
 
+# File은 언제 쓰이는가?
+# UploadFile로 대체 가능하지않나? 메타데이터 추가할 때말고 언제 사용가능?
 @app.post("/files")
 async def create_file(file: bytes = File()):
     print(file.__dir__())
@@ -36,7 +38,7 @@ class BodyData(BaseModel):
     def validate_to_json(cls, value):
         if isinstance(value, str):
             return cls(**json.loads(value))
-        return value
+        return cls(**value)
 
 
 async def checker(data: str = Form(...)):
